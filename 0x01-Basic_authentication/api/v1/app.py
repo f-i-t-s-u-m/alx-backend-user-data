@@ -17,19 +17,21 @@ auth = None
 if getenv('AUTH_TYPE') == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
+print(getenv('AUTH_TYPE'))
 
 
 @app.before_request
 def before_request():
     """ run before request
     """
-    paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if auth.require_auth(request.path, paths):
-        if not auth.authorization_header(request):
-            return abort(401)
-        else:
-            if not auth.current_user(request):
-                return abort(403)
+    if auth is not None:
+        paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        if auth.require_auth(request.path, paths):
+            if not auth.authorization_header(request):
+                return abort(401)
+            else:
+                if not auth.current_user(request):
+                    return abort(403)
 
 
 @app.errorhandler(401)
