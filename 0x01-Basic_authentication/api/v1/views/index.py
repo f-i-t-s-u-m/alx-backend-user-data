@@ -36,5 +36,3 @@ def unauthorized() -> str:
 def unauthorized() -> str:
     """ return 403 status """
     abort(403)
-
-
