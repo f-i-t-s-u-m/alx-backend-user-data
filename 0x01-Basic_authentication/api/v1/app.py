@@ -24,15 +24,19 @@ print(getenv('AUTH_TYPE'))
 def before_request():
     """ run before request
     """
-    if auth is not None:
-        paths = ['/api/v1/status/',
-                 '/api/v1/unauthorized/', '/api/v1/forbidden/']
-        if auth.require_auth(request.path, paths):
-            if not auth.authorization_header(request):
-                return abort(401)
-            else:
-                if not auth.current_user(request):
-                    return abort(403)
+    if auth is None:
+        return
+    
+    paths = ['/api/v1/status/',
+             '/api/v1/unauthorized/',
+             '/api/v1/forbidden/']
+
+    if auth.require_auth(request.path, paths):
+        if not auth.authorization_header(request):
+            return abort(401)
+        else:
+            if not auth.current_user(request):
+                return abort(403)
 
 
 @app.errorhandler(401)
