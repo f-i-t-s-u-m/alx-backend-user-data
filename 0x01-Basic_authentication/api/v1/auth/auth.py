@@ -14,7 +14,6 @@ class Auth():
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ require function
         """
-
         if path is None or excluded_paths is None:
             return True
         elif path in excluded_paths or path+'/' in excluded_paths:
@@ -24,9 +23,11 @@ class Auth():
     def authorization_header(self, request=None) -> str:
         """ auth header
         """
-        return request
+        if request.headers and request.headers.get('Authorization', None):
+            return request.headers['Authorization']
+        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ current user
         """
-        return request
+        return None
