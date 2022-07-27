@@ -45,8 +45,8 @@ class BasicAuth(Auth):
         """
         dbah = decoded_base64_authorization_header
         if dbah is None or type(dbah) is not str:
-            return None
+            return (None, None)
         if len(dbah.split(':')) <= 1:
-            return None
+            return (None, None)
 
         return (dbah.split(':')[0], dbah.split(':')[1])
