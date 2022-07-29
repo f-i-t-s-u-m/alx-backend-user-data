@@ -4,7 +4,10 @@
 """
 
 import base64
+import hashlib
 from api.v1.auth.auth import Auth
+from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -50,3 +53,22 @@ class BasicAuth(Auth):
             return (None, None)
 
         return (dbah.split(':')[0], dbah.split(':')[1])
+
+    def user_object_from_credentials(
+        self, user_email: str, user_pwd: str
+    ) -> TypeVar('User'):
+        """ user object from
+            credentials
+        """
+        if user_email is None or type(user_email) is not str:
+            return None
+        elif user_pwd is None or type(user_pwd) is not str:
+            return None
+        elif User.count() < 1:
+            return None
+        pwd = hashlib.sha256(user_pwd.encode()).hexdigest().lower()
+        data = User.search({'email': user_email, '_password': pwd})
+        if data:
+            return data[0]
+        return None
+
