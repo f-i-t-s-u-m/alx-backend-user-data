@@ -71,4 +71,3 @@ class BasicAuth(Auth):
         if data:
             return data[0]
         return None
-
