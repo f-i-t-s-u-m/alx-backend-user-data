@@ -18,12 +18,18 @@ class BasicAuth(Auth):
     ) -> str:
         """ extract base64 auth header
         """
-        if type(authorization_header) == str:
-            pattern = r'Basic (?P<token>.+)'
-            field_match = re.fullmatch(pattern, authorization_header.strip())
-            if field_match is not None:
-                return field_match.group('token')
-        return None
+        if authorization_header is None:
+            return None
+
+        if not isinstance(authorization_header, str):
+            return None
+
+        if not authorization_header.startswith("Basic "):
+            return None
+
+        encoded = authorization_header.split(' ', 1)[1]
+
+        return encoded
 
     def decode_base64_authorization_header(
         self,
