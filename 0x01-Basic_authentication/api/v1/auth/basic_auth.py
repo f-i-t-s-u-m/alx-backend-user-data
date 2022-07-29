@@ -45,13 +45,18 @@ class BasicAuth(Auth):
     ) -> (str, str):
         """ exract and return user info
         """
-        dbah = decoded_base64_authorization_header
-        if dbah is None or type(dbah) is not str:
-            return (None, None)
-        if len(dbah.split(':')) <= 1:
-            return (None, None)
+        if decoded_base64_authorization_header is None:
+            return None, None
 
-        return (dbah.split(':')[0], dbah.split(':')[1])
+        if not isinstance(decoded_base64_authorization_header, str):
+            return None, None
+
+        if ':' not in decoded_base64_authorization_header:
+            return None, None
+
+        credentials = decoded_base64_authorization_header.split(':', 1)
+
+        return credentials[0], credentials[1]
 
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
