@@ -66,8 +66,8 @@ class BasicAuth(Auth):
             return None
         elif User.count() < 1:
             return None
-        pwd = hashlib.sha256(user_pwd.encode()).hexdigest().lower()
-        data = User.search({'email': user_email, '_password': pwd})
-        if data:
-            return data[0]
+        users = User.search({'email': user_email})
+        for user in users:
+            if user.is_valid_password(user_pwd):
+                return user
         return None
