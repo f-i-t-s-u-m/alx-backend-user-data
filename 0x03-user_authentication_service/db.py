@@ -44,7 +44,7 @@ class DB:
     def find_user_by(self, **kwargs: dict) -> User:
         """ find user by args """
         for k, v in kwargs.items():
-            if k not in ['email', 'id', 'session_id']:
+            if k not in User.__dict__:
                 raise InvalidRequestError
         users = self._session.query(User)
         if (users is not None):
