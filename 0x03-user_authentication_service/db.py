@@ -56,7 +56,8 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """ update user data
         """
-
+        if kwargs is None or type(user_id) is not int:
+            raise ValueError
         user = self.find_user_by(id=user_id)
 
         for k, v in kwargs.items():
