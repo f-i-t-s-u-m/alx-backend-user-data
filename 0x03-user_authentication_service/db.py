@@ -43,12 +43,11 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ find user by args """
+        all_users = self._session.query(User)
         for k, v in kwargs.items():
             if k not in User.__dict__:
                 raise InvalidRequestError
-        users = self._session.query(User)
-        if (users is not None):
-            for user in users:
-                if getattr(user, k) == v:
-                    return user
+            for usr in all_users:
+                if getattr(usr, k) == v:
+                    return usr
         raise NoResultFound
