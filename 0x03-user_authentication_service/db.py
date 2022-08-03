@@ -41,7 +41,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """ find user by args """
         if not kwargs:
             raise InvalidRequestError
@@ -52,3 +52,15 @@ class DB:
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id, **kwargs):
+        """ update user data
+        """
+        if type(user_id) is not int:
+            raise ValueError
+
+        user = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            setattr(user, k, v)
+
+        self._session.commit()
