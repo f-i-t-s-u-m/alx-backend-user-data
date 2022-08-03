@@ -43,6 +43,8 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ find user by args """
+        if not kwargs:
+            raise InvalidRequestError
         for k in kwargs.keys():
             if k not in User.__table__.columns.keys():
                 raise InvalidRequestError
