@@ -41,7 +41,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, *args: list, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs: dict) -> User:
         """ find user by args """
         for k in kwargs.keys():
             if k not in ['email', 'id', 'session_id']:
