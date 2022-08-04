@@ -2,7 +2,7 @@
 """ flask app file
 """
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 app = Flask(__name__)
 AUTH = Auth()
