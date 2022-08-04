@@ -27,7 +27,7 @@ def users():
 
 
 @app.route("/sessions", methods=['POST'])
-def login():
+def login() -> str:
     """ generate sessions
     """
     email = request.form['email']
